@@ -1,0 +1,25 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Dependencies (will be added by /init-project based on stack)
+node_modules/
+__pycache__/
+*.pyc
+venv/
+.venv/
+target/
+
+# Local setup state
+.setup-state/
