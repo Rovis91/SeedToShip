@@ -32,7 +32,7 @@ WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "create_file", "str_replace"}
 DOCS_DIR_NAME = os.getenv("DOCS_DIR_NAME", "docs")
 DOCS_INDEX_FILE = os.getenv("DOCS_INDEX_FILE", "README.md")
 DOCS_INDEX_MAX_LINES = int(os.getenv("DOCS_INDEX_MAX_LINES", "200"))
-DOCS_TOC_THRESHOLD_LINES = int(os.getenv("DOCS_TOC_THRESHOLD_LINES", "150"))
+DOCS_TOC_THRESHOLD_LINES = int(os.getenv("DOCS_TOC_THRESHOLD_LINES", "250"))
 DOCS_BLOCK_UNINDEXED_NEW_FILES = (
     os.getenv("DOCS_BLOCK_UNINDEXED_NEW_FILES", "true").strip().lower() == "true"
 )

@@ -161,6 +161,10 @@ Rules for optional docs:
 - Propose them briefly with a clear reason tied to project needs.
 - Ask for explicit user approval before generating each extra doc.
 
+## Doc Length Rules
+
+All generated docs must stay **under 250 lines**. If a doc is inherently long (e.g., a detailed user guide, a job-specific reference file), add a table of contents at the top before writing the body. Never let a doc exceed 250 lines without one.
+
 ## Critical Rules
 
 - **Ask questions iteratively**, not all at once

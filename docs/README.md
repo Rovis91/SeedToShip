@@ -22,5 +22,5 @@ Every time a file in `/docs/` is created or modified:
 
 1. Is this topic already covered in an existing file? → Add there, don't create new
 2. Is the new file listed in this README? → Add it before committing
-3. Does this file exceed ~150 lines? → Add a table of contents at the top
+3. Does this file exceed 250 lines? → Add a table of contents at the top (applies to inherently long files like user guides or job-specific references)
 4. Is this README still under 200 lines? → Keep it an index, not a content file
