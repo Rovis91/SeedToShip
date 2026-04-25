@@ -19,6 +19,7 @@ If you do not use Git, you can still download and extract the repository ZIP.
 - Use `/desktop` for a better UI during setup and review.
 - Use `/clear` between each major step to keep context clean.
 - If you feel like trusting claude use `claude --dangerously-skip-permissions`
+- I recommend to use `/effort` => high for the all setup (don't forget to turn it back to medium after)
 - Run steps in order. Do not skip.
 
 ## Workflow (Required Order)
@@ -39,7 +40,7 @@ Run:
 /compact
 ```
 
-Then prompt ( in plan mode by doing `/plan` or pressing Shift+Tab ):
+Then prompt (in plan mode by doing `/plan` or pressing Shift+Tab ):
 ```text
 We finalized the docs. Please review for edge cases, over-engineering, and unnecessary complexity.
 Suggest simplifications for MVP and call out any risky assumptions.
@@ -71,11 +72,6 @@ Creates project structure and installs dependencies for your chosen stack.
 ```
 Validates docs and setup, replaces all `{{project_name}}` placeholders, removes setup commands, and commits v0. Everything is handled automatically — no scripts to run.
 
-Then run:
-```
-/clear
-```
-
 ### 5) Confirm Setup is Clean
 
 Before moving on, manually verify that setup completed correctly:
@@ -83,7 +79,7 @@ Before moving on, manually verify that setup completed correctly:
 - [ ] Setup commands are gone — `.claude/commands/` should only contain `phase-start.md` and `phase-review.md`
 - [ ] `readme_protection.py` hook is gone — `.claude/hooks/` should only contain `docs_protection.py`
 - [ ] `docs/README.md` is fully populated — no placeholder text, all doc files listed
-- [ ] `CLAUDE.md` reflects your actual project — name, stack, and constraints are correct
+- [ ] `CLAUDE.md` reflects your actual project — name, stack, and constraints are correct ( you can rerun `/init` to be sure it's up to date)
 
 If anything is missing or still templated, fix it before continuing.
 
