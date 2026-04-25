@@ -6,7 +6,7 @@ This template helps you go from idea to a ready-to-build project, with structure
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Rovis91/seedtoship
 cd SeedToShip
 ```
 2. Open this folder in your IDE
@@ -18,6 +18,7 @@ If you do not use Git, you can still download and extract the repository ZIP.
 
 - Use `/desktop` for a better UI during setup and review.
 - Use `/clear` between each major step to keep context clean.
+- If you feel like trusting claude use `claude --dangerously-skip-permissions`
 - Run steps in order. Do not skip.
 
 ## Workflow (Required Order)

@@ -114,6 +114,8 @@ Based on the PRD requirements, **propose** a tech stack. Explain your reasoning.
 - Project requirements (real-time? heavy data? mobile?)
 - Simplicity — prefer established, well-documented tools
 - Deployment simplicity
+- **Minimum viable dependencies** — every library added is a liability; choose the option that achieves the goal with the fewest moving parts
+- **Only propose technologies you are confident working with** — do not suggest tools you cannot fully implement and debug; if multiple options are equal, pick the one you know best
 
 Present your recommendation and **ask the user to confirm or adjust** before proceeding.
 
