@@ -1,7 +1,5 @@
 ---
-name: phase-start
 description: "Start the next development phase from the timeline. Commits current work, reviews the plan, generates a detailed breakdown, and builds the feature after user confirmation."
-disable-model-invocation: true
 allowed-tools: Read Write Bash(*)
 ---
 

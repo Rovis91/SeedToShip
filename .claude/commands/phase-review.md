@@ -1,7 +1,5 @@
 ---
-name: phase-review
 description: "Review a completed development phase. Rechecks timeline, validates code quality and constraints, detects over-engineering and missing edge cases, updates docs, and commits with the phase number."
-disable-model-invocation: true
 allowed-tools: Read Write Bash(*)
 ---
 

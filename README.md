@@ -20,35 +20,25 @@ If you do not use Git, you can still download and extract the repository ZIP.
 - Use `/clear` between each major step to keep context clean.
 - Run steps in order. Do not skip.
 
-## One-Time Scripts
-
-Run these once at project start:
-
-```bash
-node scripts/preflight-check.mjs
-```
-- Verifies required tools (`git`, `node`, `npm`).
-- Marks completion in `.setup-state/preflight.done`.
-
 ## Workflow (Required Order)
 
 ### 1) Scope the Project
-```bash
-/project-setup
 ```
-This step will ask you to explain your project, the users and scope the project until claude have a complete understanding of your needs.
+/setup-1-scope
+```
+Checks your prerequisites (Git, Node.js, npm), then asks you to explain your project until Claude has a complete understanding of your needs. Generates all docs for your review.
 
 Review and approve the generated docs before continuing.
 
-### 1.5) Review (optionnal but recommended)
+### 1.5) Review (optional but recommended)
 If the generated docs feel too complicated, over-engineered, or unclear, stay in the same session and ask Claude for a focused review.
 
 Run:
-```bash
+```
 /compact
 ```
 
-Then prompt:
+Then prompt ( in plan mode by doing `/plan` or pressing Shift+Tab ):
 ```text
 We finalized the docs. Please review for edge cases, over-engineering, and unnecessary complexity.
 Suggest simplifications for MVP and call out any risky assumptions.
@@ -58,57 +48,53 @@ You can append any specific issue you noticed.
 
 
 ### 2) Configure Tooling
-```bash
+```
 /clear
-/setup-tooling
+/setup-2-tooling
 ```
 Installs/configures recommended MCPs, skills, hooks, and settings based on your docs.
 
 
 ### 3) Initialize the Project
-```bash
+```
 /clear
-/init-project
+/setup-3-init
 ```
 Creates project structure and installs dependencies for your chosen stack.
 
 
 ### 4) Verify and Finalize v0
-```bash
+```
 /clear
-/verify-and-finalize
+/setup-4-finalize
 ```
-Validates docs/setup, finalizes context, and prepares your v0 baseline.
-
-Then run the final cleanup script:
-```bash
-node scripts/setup-cleanup.mjs
-```
-- Removes template setup skills only (`project-setup`, `setup-tooling`, `init-project`, `verify-and-finalize`).
-- Keeps permanent phase skills and any custom user skills.
-- Replaces `{{project_name}}` placeholders with the project folder name.
-- Warns if docs still look template-like and reminds you to review all docs before commit.
-- Self-cleans by deleting `scripts/` and `.setup-state/` at the end.
-
-Before committing, do a manual check that cleanup is complete:
-- Confirm setup skills were removed (`project-setup`, `setup-tooling`, `init-project`, `verify-and-finalize`).
-- Confirm temporary setup hooks were removed (especially `readme_protection.py`).
-- Confirm only permanent phase skills remain.
+Validates docs and setup, replaces all `{{project_name}}` placeholders, removes setup commands, and commits v0. Everything is handled automatically — no scripts to run.
 
 Then run:
-```bash
+```
 /clear
 ```
 
-### 5) Build by Phases
+### 5) Confirm Setup is Clean
+
+Before moving on, manually verify that setup completed correctly:
+
+- [ ] Setup commands are gone — `.claude/commands/` should only contain `phase-start.md` and `phase-review.md`
+- [ ] `readme_protection.py` hook is gone — `.claude/hooks/` should only contain `docs_protection.py`
+- [ ] `docs/README.md` is fully populated — no placeholder text, all doc files listed
+- [ ] `CLAUDE.md` reflects your actual project — name, stack, and constraints are correct
+
+If anything is missing or still templated, fix it before continuing.
+
+### 6) Build by Phases
 Use these permanent commands:
 
-```bash
+```
 /phase-start
 ```
-Plans and build the next phase.
+Plans and builds the next phase.
 
-```bash
+```
 /phase-review
 ```
 Reviews and finalizes a completed phase.

@@ -1,11 +1,9 @@
 ---
-name: init-project
-description: "Initialize the project structure, install dependencies, and get to a working hello-world state. Use after /setup-tooling is complete."
-disable-model-invocation: true
+description: "Initialize the project structure, install dependencies, and get to a working hello-world state. Use after /setup-2-tooling is complete."
 allowed-tools: Read Write Bash(*)
 ---
 
-# Init Project — Structure, Dependencies, Hello World
+# Setup Step 3 — Initialize the Project
 
 You are initializing the actual project. Docs are written, tooling is configured. Now create the project structure and get it running.
 
@@ -49,7 +47,7 @@ Report the result to the user.
 If Git is available and not initialized:
 - `git init`
 - Create a `.gitignore` appropriate for the stack
-- Do NOT commit yet — that's for `/verify-and-finalize`
+- Do NOT commit yet — that's for `/setup-4-finalize`
 
 If Git is not available, skip this step and note it.
 
@@ -60,4 +58,4 @@ If Git is not available, skip this step and note it.
 - **Do not build features** — only the skeleton and hello world
 - **Do not modify docs** — project init does not change documentation
 - **Report any issues** — if something doesn't install or build, tell the user
-- After completion, tell the user to run `/verify-and-finalize` next
+- After completion, tell the user to run `/setup-4-finalize` next

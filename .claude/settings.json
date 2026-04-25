@@ -139,7 +139,6 @@
       "Bash(rm -rf ~/*)",
       "Bash(mkfs *)",
       "Bash(dd *)",
-      "Bash(:(){ :|:& };:)",
       "Bash(shutdown *)",
       "Bash(reboot *)",
       "Bash(halt *)",

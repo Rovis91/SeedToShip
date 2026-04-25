@@ -1,11 +1,9 @@
 ---
-name: setup-tooling
-description: "Configure Claude Code tooling for the project. Reads the tech stack and PRD, then recommends and installs MCPs, skills, hooks, and settings. Use after /project-setup is complete."
-disable-model-invocation: true
+description: "Configure Claude Code tooling for the project. Reads the tech stack and PRD, then recommends and installs MCPs, skills, hooks, and settings. Use after /setup-1-scope is complete."
 allowed-tools: Read Write Bash(*)
 ---
 
-# Setup Tooling — MCPs, Skills, Hooks, Settings
+# Setup Step 2 — Configure Tooling
 
 You are configuring Claude Code for an already-scoped project. The docs in `/docs` have been written and approved. Your job is to recommend and install the right tooling.
 
@@ -17,7 +15,7 @@ Before starting, verify:
 3. `docs/CONSTRAINTS.md` exists and is filled
 4. `docs/TIMELINE.md` exists and is filled
 
-If any are missing or still placeholders, tell the user to run `/project-setup` first.
+If any are missing or still placeholders, tell the user to run `/setup-1-scope` first.
 
 ## Tooling Categories
 
@@ -92,6 +90,6 @@ Show the proposed settings changes and ask for confirmation.
 
 - **Never install without asking** — every MCP, skill, hook, and setting change requires confirmation
 - **Do not modify docs** — tooling setup does not change documentation
-- **Do not install project dependencies** — that's for `/init-project`
+- **Do not install project dependencies** — that's for `/setup-3-init`
 - **Do not generate application code**
-- After completion, tell the user to run `/init-project` next
+- After completion, tell the user to run `/setup-3-init` next

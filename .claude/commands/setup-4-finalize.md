@@ -1,13 +1,11 @@
 ---
-name: verify-and-finalize
-description: "Final verification step. Checks all docs are complete, project builds, removes setup commands, updates CLAUDE.md, and commits v0. Use after /init-project is complete."
-disable-model-invocation: true
-allowed-tools: Read Write Bash(*)
+description: "Final verification step. Checks all docs are complete, project builds, removes setup commands, replaces placeholders, and commits v0. Use after /setup-3-init is complete."
+allowed-tools: Read Write Edit Bash(*)
 ---
 
-# Verify & Finalize — Validation, Cleanup, Commit v0
+# Setup Step 4 — Verify, Clean Up, and Commit v0
 
-This is the final setup step. After this, the project transitions from "setup mode" to "development mode."
+This is the final setup step. After this, the project transitions from "setup mode" to "development mode." All cleanup happens here — no external scripts needed.
 
 ## Verification Checklist
 
@@ -41,20 +39,45 @@ Go through each item and report pass/fail:
 
 Report the full checklist to the user. If anything fails, fix it or ask the user how to proceed.
 
-## Cleanup — Remove Setup Commands
+## Cleanup
 
-Once everything passes, delete the setup-only skills:
+Once everything passes, perform all cleanup steps in order.
 
+### Step 1 — Replace `{{project_name}}` placeholders
+
+Get the project name from the current directory:
+
+```bash
+basename $(pwd)
 ```
-rm -rf .agents/skills/project-setup
-rm -rf .agents/skills/setup-tooling
-rm -rf .agents/skills/init-project
-rm -rf .agents/skills/verify-and-finalize
+
+Then search all text files for the placeholder and replace with the actual project name. Use the Edit tool for each file containing `{{project_name}}`. Target these extensions: `.md`, `.json`, `.js`, `.mjs`, `.ts`, `.tsx`, `.py`, `.sh`, `.yaml`, `.yml`.
+
+If no placeholders are found, skip this step.
+
+### Step 2 — Check for unchanged template docs
+
+For each file in `docs/`, check whether it still contains generic placeholder phrases like "TODO", "placeholder", "your project", or "describe your". If any doc looks template-like, warn the user with a list of files and ask them to review before continuing.
+
+### Step 3 — Remove the temporary README protection hook
+
+```bash
+rm -f .claude/hooks/readme_protection.py
 ```
 
-The two permanent skills remain:
-- `.agents/skills/phase-start/SKILL.md`
-- `.agents/skills/phase-review/SKILL.md`
+### Step 4 — Delete all `setup-*` commands (including this file)
+
+```bash
+rm -f .claude/commands/setup-*.md
+```
+
+This removes all four setup commands, including this one. That is expected — setup is complete.
+
+### Step 5 — Delete `.setup-state/` if it exists
+
+```bash
+rm -rf .setup-state/
+```
 
 ## Update CLAUDE.md
 
@@ -64,6 +87,7 @@ Rewrite `CLAUDE.md` to reflect the actual project. It should contain:
 - Links to all docs in `/docs`
 - Key constraints (from CONSTRAINTS.md — the most critical ones)
 - Available commands: `/phase-start` and `/phase-review`
+- Active hooks: `docs_protection.py` only
 - Current state: "v0 committed — ready for Phase 2 development"
 - Rules: do not modify docs without user confirmation, follow constraints, follow timeline phases
 

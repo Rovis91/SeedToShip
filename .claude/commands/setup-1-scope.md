@@ -1,13 +1,27 @@
 ---
-name: project-setup
 description: "Start the project scoping conversation. Asks iterative questions to understand the user's idea, then generates all project documentation (PRD, tech stack, constraints, timeline). Use this as the first step when setting up a new project."
-disable-model-invocation: true
-allowed-tools: Read Write Bash(git *)
+allowed-tools: Read Write Bash(git *) Bash(node *) Bash(npm *) Bash(which *)
 ---
 
-# Project Setup — Scoping Conversation
+# Setup Step 1 — Scope the Project
 
 You are helping a user define their project from scratch. They may have a vague idea or a clear vision. Your job is to ask the right questions until you have enough information to generate complete project documentation.
+
+## Prerequisites Check
+
+Before asking anything else, verify the user's environment has the required tools. Run these three checks:
+
+```bash
+git --version
+node --version
+npm --version
+```
+
+- If `git` is missing: tell the user to install Git from https://git-scm.com and stop.
+- If `node` is missing or below v18: tell the user to install Node.js 18+ from https://nodejs.org and stop.
+- If `npm` is missing: tell the user to reinstall Node.js (npm is bundled with it) and stop.
+
+If all three pass, continue to the scoping conversation below. Do not mention the checks to the user unless something fails.
 
 ## How This Works
 
@@ -130,7 +144,7 @@ Update CLAUDE.md to reflect the actual project:
 - Project name and description
 - Links to all docs
 - Key constraints and rules
-- Current state (ready for `/setup-tooling`)
+- Current state (ready for `/setup-2-tooling`)
 
 ### 7. Optional Additional Docs (only if clearly needed)
 Claude can generate extra, project-specific docs when they provide clear value. Examples:
@@ -155,4 +169,4 @@ Rules for optional docs:
 - **Do not skip review** — every document requires explicit user approval
 - **Do not generate application code** — this is documentation only
 - **Do not install anything** — that happens in later steps
-- After all docs are approved, tell the user to run `/setup-tooling` next
+- After all docs are approved, tell the user to run `/setup-2-tooling` next
