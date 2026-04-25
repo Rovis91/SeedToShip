@@ -53,6 +53,18 @@ For each suggestion that passes the filter:
 
 Review the available skills list. Apply the same filter: only suggest a skill if it directly supports a task the user will perform repeatedly in this project.
 
+Before suggesting project-specific skills, include these starter recommendations and discovery sources:
+
+- **Starter recommendations:**
+  - `frontend-design` skill: https://github.com/anthropic/claude-code-skills/tree/main/frontend-design
+  - `webapp-testing` skill: https://github.com/anthropic/claude-code-skills/tree/main/webapp-testing
+  - Superpowers skill collection: https://github.com/obra/superpowers
+- **Find more skills:**
+  - Anthropic Claude Code Skills repo: https://github.com/anthropic/claude-code-skills
+  - Community Claude skills (glebis): https://github.com/glebis/claude-skills
+  - Claudeskills directory: https://claudeskills.info/skills/
+  - Agent Skill Club: https://agentskill.club
+
 **If no skill adds clear value, say so and move on.**
 
 For each that passes:
