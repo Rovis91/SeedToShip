@@ -1,166 +1,161 @@
 # Conversion Framework — Section Rules
 
-Each section spec leads with the **visual**, not the copy. Copy supports the visual. If a section has nothing to show, it doesn't earn its place.
+Each section spec leads with **what to show** and **the motion moment**. Copy is the caption, not the content. Every section also names which beat of the narrative spine (Frustration / Result / Value) it serves.
 
 ## Legend
 - 🔵 Hook · 🟢 Trust · 🟣 Educate · 🟠 Convert
 
 ---
 
-## 1. HERO 🔵 (required)
+## 1. HERO 🔵 (required) — *Frustration + Result compressed*
 
-**Visual carries:** product screenshot, looped GIF, short muted video, or animated mock. The visual *is* the hero — copy supports it.
+**Show:** a real product moment in motion. A short looped video, animated mock, scrolling product screen, interactive demo preview, or a static screenshot animated in (parallax tilt, slow zoom, layered reveal). Static-only is the failure mode.
 
-**Copy is minimal:**
-- Headline: **one sentence**, ≤12 words
-- Subhead: **optional**. Skip unless the headline can't carry both *what it is* and *the outcome* without becoming awkward.
-- One primary CTA, outcome-labeled, thumb-reachable
+**Copy:**
+- Headline: ≤10 words. A sales pitch, not a feature. Outcome-led.
+- Subhead: ≤1 sentence. Adds the audience, the mechanism, or the proof.
+- One primary CTA, outcome-labeled, thumb-reachable.
 
-**Layout (mobile, 375×667px):**
-- Logo top-left (small)
-- Headline below
-- Subhead if present (one line)
-- CTA — visible above fold without scroll
-- Visual — appears above fold or immediately on first scroll
-- One micro trust cue (logo strip, rating, or single metric)
+**Motion moment:** the page-load orchestration. Staggered reveal: logo → headline → CTA → product visual. The product visual itself loops or animates subtly, never frozen.
 
-**Rules:**
-- Headline echoes the ad/email/referral promise (message match).
-- Single primary CTA. Secondary link acceptable but visually subordinate.
-- Visual shows the product or end state, not abstract art.
-- Visual must not push the CTA below the fold.
+**Above the fold (375×667px):** logo, headline, subhead, CTA, one trust cue, the product visual all visible.
 
 ---
 
-## 2. SOCIAL PROOF STRIP 🟢 (required, even if minimal)
+## 2. SOCIAL PROOF STRIP 🟢 (required) — *Result*
 
-**Visual carries:** logos, star ratings, or a metric in large numerals.
+**Show:** real logos, real numbers in large type, star rating, video testimonial thumbnail, or a counter that animates up as it enters viewport. Numbers in large numerals beat sentences.
 
-**Copy is minimal:** one line of context maximum. Often zero.
+**Copy:** one line of context, often zero.
 
-**Acceptable forms:**
-- Logo row (4–8 recognizable customers/partners)
-- Headline metric ("Cut response time by 37% — average across 300 teams")
-- Star rating + one-sentence testimonial (named + role)
+**Motion moment:** logos drift gently in a continuous marquee, OR the metric counts up on scroll. One of the two — pick what fits the aesthetic.
 
 **Rules:**
 - Place directly under the hero — at least one cue visible without scrolling.
-- Specifics > vague claims.
 - Logos: 4–8 max.
 - If proof is thin, substitute per SKILL.md Step 4 thin-proof handling. Never fabricate.
 
 ---
 
-## 3. PROBLEM SNAPSHOT 🟣 (skip for already-aware audiences)
+## 3. FRUSTRATION SNAPSHOT 🟣 (required for cold traffic) — *Frustration*
 
-**Visual carries:** before/after contrast, broken UI mock, illustration showing the pain. Without a visual, this section becomes a paragraph — cut it.
+**Show:** a before/after split, a broken-UI mock the visitor recognizes, a frustration moment shown in motion (bouncing back-and-forth between tabs, the same task taking forever), or a comparison visual against the status quo. Without a *show*, this section becomes a paragraph — cut it.
 
-**Copy is minimal:** 2 sentences OR 3 bullets. Not both.
+**Copy:** 2 sentences max OR 3 short bullets. Not both. Direct second person, in *their* vocabulary.
+
+**Motion moment:** the contrast visual animates the pain — a tab-switching loop, a clock spinning, a counter going up on the wrong metric. The visitor feels it.
 
 **Rules:**
-- Direct second person ("you"), specific pains.
-- Concrete > abstract.
+- Concrete > abstract. "You open 7 tools to answer one customer" beats "fragmented workflows."
 - Skip if audience is already aware (e.g., devs viewing dev tools).
 
 ---
 
-## 4. HOW IT WORKS 🟣 (required if mechanism is non-obvious)
+## 4. HOW IT WORKS 🟣 (required if mechanism is non-obvious) — *Value*
 
-**Visual carries:** **3 distinct visuals**, one per step. Screenshots, GIFs, diagrams — not generic icons.
+**Show:** **3 distinct visuals**, one per step. Short GIFs, screen recordings, animated diagrams. Never icons alone — icons are decoration.
 
-**Copy is minimal:** verb-led title + one sentence per step.
+**Copy:** verb-led title + one sentence per step.
+
+**Motion moment:** each step's visual loops independently OR a single 30–120s muted product walkthrough, user-controlled, never autoplay with sound.
 
 **Rules:**
 - Vertical 3-step stack on mobile.
-- If a step has only an icon and no real visual, the section is underdeveloped — either find a visual or use Features-as-benefits instead.
-- Optional supporting demo video (30–120s, muted, user-controlled, never autoplay with sound).
-- Lazy-load video below the fold.
+- Step titles are verbs + outcomes.
+- If a step has only an icon, the section is underdeveloped — find a real visual or use Features-as-benefits instead.
 
 ---
 
-## 5. FEATURES AS BENEFITS 🟠 (required if mechanism obvious but value-per-feature varies)
+## 5. FEATURES AS BENEFITS 🟠 (required if mechanism is obvious but value-per-feature varies) — *Value*
 
-**Visual carries:** micro-screenshot, custom icon, or distinct illustration per card. Not the same generic gradient icon repeated 6 times.
+**Show:** micro-screenshot, specific UI fragment, or a custom illustration per card. Not the same generic gradient icon repeated 6 times.
 
-**Copy is minimal:** outcome headline + 1 line per card.
+**Copy:** outcome headline + 1 line per card.
+
+**Motion moment:** cards reveal on scroll with stagger, OR each card has a small hover state that reveals more detail (a screenshot expanding, a metric counting). One pattern across all cards, not five.
 
 **Rules:**
 - 3–6 cards. More dilutes.
 - Lead with the outcome ("Ship campaigns 3× faster"), then the mechanism.
 - Single-column stacked cards on mobile.
-- Consistent card structure.
 
 ---
 
-## 6. TESTIMONIALS 🟢 (optional)
+## 6. TESTIMONIALS 🟢 (optional) — *Result*
 
-**Visual carries:** avatar + company logo per testimonial.
+**Show:** avatar + company logo per testimonial, ideally a short video clip on at least one. A face beats a quote alone.
 
-**Copy:** 2–3 testimonials, each with real name + role + company + specific outcome quote.
+**Copy:** 2–3 testimonials, each: real name + role + company + specific outcome quote.
+
+**Motion moment:** a carousel that drifts gently, OR cards that fade in on scroll. Static walls of quotes feel dead.
 
 **Rules:**
 - Specific wins beat generic praise.
-- Testimonials whose author profile matches the visitor.
-- Stack vertically on mobile.
-- Skip if quotes are generic.
+- Match testimonial author profiles to the visitor.
+- Skip the section if quotes are generic.
 
 ---
 
-## 7. PRICING SNAPSHOT 🟠 (optional — for self-serve products)
+## 7. PRICING SNAPSHOT 🟠 (optional, for self-serve) — *Value*
 
-**Visual carries:** tier hierarchy — recommended plan visually elevated.
+**Show:** tier hierarchy — recommended plan visually elevated, ideally with a subtle accent or motion that draws the eye.
 
 **Copy:** 2–3 tiers, vertically stacked on mobile. Each: price + 3–5 outcome bullets + tier label.
 
+**Motion moment:** the recommended tier subtly pulses or has an animated badge. Hover states on each tier reveal additional detail.
+
 **Rules:**
 - Lead with the plan most visitors will pick, marked "Most popular."
-- Bullets describe outcomes, not feature counts.
-- Each tier has its own CTA.
-- Risk reversal nearby ("14-day free trial," "No credit card").
+- Outcomes, not feature counts, in bullets.
+- Risk reversal nearby ("14-day free trial," "no credit card").
 - Enterprise: replace with "Talk to sales."
 
 ---
 
-## 8. FAQ 🟠 (optional)
+## 8. FAQ 🟠 (optional) — *Value*
 
-**Visual:** none — but accordion behavior matters. Compact and scannable.
+**Show:** the accordion interaction itself is the show. Smooth motion, satisfying open/close.
 
-**Copy:** 4–6 real Q/As. See `copy-rules.md` for FAQ writing pattern. See `objection-library.md` for category-by-category dismantling.
+**Copy:** 4–6 real Q/As, in the visitor's vocabulary. See `copy-rules.md` for FAQ pattern. See `objection-library.md` for category-by-category dismantling.
+
+**Motion moment:** smooth accordion expansion (200–300ms ease), with a subtle indicator rotation.
 
 **Order:** setup early (momentum), trust mid, **price last** (the final wall).
 
 ---
 
-## 9. FINAL CTA STRIP 🟠 (required)
+## 9. FINAL CTA STRIP 🟠 (required) — *Value + close*
 
-**Visual carries:** subtle background treatment, accent visual, or product moment that reinforces the outcome.
+**Show:** an atmospheric background or accent visual that reinforces the outcome. The signature element of the page often appears here too.
 
-**Copy:** restated outcome (one line) + CTA button + optional supporting metric.
+**Copy:** restated outcome (one line) + CTA + optional supporting metric.
+
+**Motion moment:** the CTA's hover reward — the most committed micro-interaction on the page. The visitor's last interaction should feel rewarding.
 
 **Rules:**
 - Same CTA label and destination as hero.
 - Sticky bottom CTA bar on mobile is acceptable.
-- This area's only job is to convert. Minimize surrounding content.
+- Surrounding content is minimal. This area's only job is to convert.
 
 ---
 
 ## Mobile-first specs
 
-- Design at **375px** width first; scale up.
-- **Above fold (375×667px) on hero:** logo, headline, subhead (if any), CTA, one trust cue all visible.
-- Single column. Section spacing **64–96px between, 32–48px within.**
+- Design at **375px** width first. Scale up.
+- **Above fold (375×667px) on hero:** in 2 seconds, the visitor sees logo, headline, subhead, CTA, one trust cue, the product visual.
+- Single column. **64–96px between sections, 32–48px within.**
 - Hamburger nav or no nav.
 - **Body ≥16px**, headline mobile **≥28–48px**.
 - **Tap targets ≥44×44px**, primary CTA 60–72px ideal.
-- LCP < 2.5s. Compress images. No heavy scripts above fold. Lazy-load below.
-- **Verify every grid collapses to single column at <640px.** Multi-column grids on mobile are the #1 layout failure.
+- LCP <2.5s. Compress images. No heavy scripts above fold. Lazy-load below.
+- **Every grid collapses to single column at <640px.** Multi-column grids on mobile are the #1 layout failure.
 
-## Accessibility specs
+## Accessibility
 
-- Contrast: ≥4.5:1 for body, ≥3:1 for large text and UI.
+- Contrast: ≥4.5:1 body, ≥3:1 large text and UI.
 - Visible focus states on all interactive elements.
 - FAQ: `<details>`/`<summary>` or `aria-expanded` + keyboard support.
-- Form labels (visible or `aria-label`), correct input types, autocomplete attributes.
+- Form labels, correct input types, autocomplete attributes.
 - Alt text on all meaningful images.
 - Respect `prefers-reduced-motion`.
 
@@ -173,9 +168,9 @@ Cut first → never cut last:
 3. FAQ (cut if no real objections)
 4. Testimonials (cut if quotes are generic)
 5. Features OR How it works (keep one, not both, unless mechanism is non-obvious)
-6. Problem snapshot (cut for already-aware audiences)
+6. Frustration snapshot (cut for already-aware audiences)
 7. Final CTA — never cut
 8. Social proof — never cut (substitute if no real proof)
 9. Hero — never cut
 
-**Default 5-section page**: Hero → Social proof → Problem → How it works (or Features) → Final CTA.
+**Default 5-section page:** Hero → Social proof → Frustration → How it works (or Features) → Final CTA.
