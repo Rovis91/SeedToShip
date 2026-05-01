@@ -1,306 +1,195 @@
 ---
 name: landing-page-generator
-description: Generate high-conversion, visually refined landing pages with minimal text and strong hierarchy. Use this skill whenever the user asks to build, design, draft, or rewrite a landing page, marketing page, product page, hero section, "above the fold," sales page, waitlist page, app launch page, SaaS homepage, or any standalone conversion-focused web page — even if they say "site," "single page," "promo page," or just hand over a product description and ask for a page. Works tech-agnostic (HTML, React, Next.js, Astro, Vue, plain CSS, Tailwind, existing component libraries) and adapts to existing themes/design systems or generates a new one when none is provided. Produces both copy and design, calls the frontend-design skill for implementation.
+description: Generates high-conversion, visual-first landing pages.
 ---
 
 # Landing Page Generator
 
-Produces landing pages that **convert** — not pages that look nice and say nothing. The skill extracts signal, makes decisive choices, runs hard quality gates before any code is generated, and hands frontend-design a brief tight enough that the page ships.
+Produces landing pages that **convert** — visual-first, lean copy, theme-respectful.
 
-The two failure modes to prevent are:
+## The six rules (the whole skill in one place)
 
-- **Slop** — generic purple-on-white, "Empower your workflow," generic feature cards, AI-generated visual signature.
-- **Soup** — every possible section included, no hierarchy, three competing CTAs, copy that explains everything and sells nothing.
+1. **Show, don't tell.** People don't read. Every section earns its space with a visual or interaction. Copy supports the visual, not the other way around.
+2. **Lean is the default.** Hero is one sentence + one CTA. Subhead is optional. If a section needs a paragraph to justify itself, cut it.
+3. **Adapt to the project's stack and tokens.** Use what the project already has — components, design tokens, fonts, spacing. Custom code is for what the system can't express. Never hardcode hex when semantic tokens exist.
+4. **A clear offer is the money-maker.** What is sold, to whom, for what outcome, in exchange for what action. If any of those four are blurry, the page can't convert. Sharpen the offer before writing anything.
+5. **Conversion is the only goal.** Every section, visual, word, and animation either moves the visitor toward the CTA or competes with it. There is no third option.
+6. **Mobile-first.** Design for 375px first. Most visitors arrive on a phone; the page is judged there.
 
-The cure: fewer sections, sharper copy, decisive aesthetic, and **gated quality checks the model cannot skip**.
-
----
-
-## Workflow (8 steps, gates are hard)
-
-```
-1. Intake          → extract signal from inputs
-2. Clarify         → block on 2 non-negotiables, batch the rest
-3. Decide structure → ordered section list, default = 5
-4. Write copy      → hero pitch first, against formula
-5. Decide design   → adopt or generate, anti-slop checklist
-6. Critique pass   → external-reviewer self-grading (HARD GATE)
-7. Brief & build   → handoff to frontend-design
-8. Deliver         → code + rationale + proof gap callout if needed
-```
-
-Hard gates fail loudly. If a gate fails, **do not proceed** — fix the failure first.
+The two failure modes to prevent: **text-block slop** (hero with three lines of copy, every section padded with explanation) and **theme override** (hardcoding values when the project has tokens).
 
 ---
 
-## Step 1 — Intake
+## Workflow (5 steps)
 
-Read everything provided (PDF, doc, URL, paste, repo). Extract this signal map:
+```
+1. Detect stack & tokens   → use what exists
+2. Sharpen offer + intake  → 4 non-negotiables, batched questions
+3. Outline + gate          → sections, visual plan, ONE critique pass
+4. Write copy lean         → hero first, then the rest
+5. Brief & build           → handoff to frontend-design, deliver
+```
 
-| Signal | What to find |
-|---|---|
-| **Offer** | Product, service, lead magnet, waitlist? |
-| **ICP** | Role, company size, sophistication level, jargon they use |
-| **Outcome** | What changes in the buyer's life/work after using it? |
-| **Proof** | Logos, metrics, testimonials, case studies, press, founder credentials |
-| **Differentiator** | Why this vs alternatives — specifics, not "faster" |
-| **Stack** | React/Next/Astro/Vue/HTML, Tailwind/CSS-in-JS, existing component lib |
-| **Theme** | Existing brand colors, fonts, logo, design tokens, component library, screenshots |
-| **Goal** | One conversion goal — trial, demo, waitlist, purchase, contact |
-| **Assets reality** | Real screenshots / video / GIFs available? Or all placeholder? |
+---
 
-If the user attached a structure or framework doc, treat it as the **structural source of truth** — don't override their preferred section order without reason.
+## Step 1 — Detect stack & tokens
 
-## Step 2 — Clarify
+Before asking about content, determine the design system context. Inspect the project (file tree, configs, existing pages) and identify, in order:
 
-**Two non-negotiables. The skill does not proceed without these:**
+1. **Component library** (shadcn/ui, Material, Chakra, Mantine, Radix, etc.) → use its primitives.
+2. **Utility framework** (Tailwind config, Open Props, etc.) → use its semantic classes and tokens.
+3. **Existing CSS variables** in files like `globals.css`, `theme.css`, `app.css` → reference them in the project's pattern (`hsl(var(--primary))`, `var(--color-bg)`, etc.).
+4. **None of the above** → a new system will be generated in Step 3 per `references/design-principles.md`.
 
-1. **Single conversion goal** — one CTA only. Trial, demo, waitlist, purchase, or contact.
-2. **ICP in one sentence** — role + company stage/size + relevant context. "Founders" is not enough. "Solo founders shipping their first SaaS" is.
+If extra CSS is unavoidable for landing-specific elements, put it in a separate `landing.css` rather than polluting the shared theme.
 
-If either is missing or vague, ask before going further. No defaulting on these — they are the page's foundation.
+If unsure whether a theme exists, ask once: *"Are you using a component library or design tokens? (shadcn / Tailwind config / Material / custom CSS vars / none)"* — one question, then proceed.
 
-**Batch the rest** (ask in one message, only what's missing):
+**Important:** detecting an existing theme decides which *tokens and components* to use — it does not skip design judgment. Hierarchy, atmosphere, signature element, motion posture, and the custom-vs-stock split are page-level decisions made in Step 3 regardless of whether a theme exists.
 
-- Tone (authoritative / playful / technical / premium / scrappy)
-- Existing brand colors, logo, fonts, component library — or "no theme, propose one"
-- Tech stack target
-- Real proof available (named testimonials? metrics? logos?)
-- Asset reality check: which visuals are real, which need placeholders?
+## Step 2 — Sharpen the offer + intake
 
-Use `ask_user_input_v0` when answers fit small option sets; plain text otherwise.
+A clear offer is the money-maker. Before any structure or copy, the offer must answer **all four**:
 
-**Cap: ~5 questions total.** If the user answered "just ship something," still confirm the two non-negotiables, then proceed with confident defaults for everything else, labeling assumptions inline.
+- **What** is being sold or given (product, trial, lead magnet, waitlist spot)
+- **To whom** (ICP in one sentence — role + stage + relevant context, not "founders")
+- **For what outcome** (the specific change in the buyer's life or work)
+- **In exchange for what** (one conversion goal — trial / demo / waitlist / purchase / contact)
 
-## Step 3 — Decide structure
+If any of the four is blurry, ask. If proof exists (testimonials, metrics, logos, founder credentials), surface it now. If proof is thin, note it for Step 5.
 
-Load `references/conversion-framework.md` for full section rules.
+Batch the rest in one message, only what's missing: tone, asset reality (which visuals are real vs. placeholder), tech-stack confirmation if unclear from Step 1.
 
-**Required (every page):**
-- Hero (one CTA)
-- Social proof strip (substitute if thin — see below)
-- Problem/pain snapshot (skip only for already-aware audiences like devs viewing dev tools)
-- How it works **OR** Features-as-benefits (decision rule below)
-- Final CTA strip
+Cap: ~5 questions total. If the user said "just ship," still confirm the four offer elements, then proceed with confident defaults and label assumptions inline.
 
-**How-it-works vs. Features decision rule:**
-- If the **mechanism** is non-obvious (the buyer can't picture how it works in 2 seconds) → **How it works.**
-- If the mechanism is obvious but **value-per-feature varies** (different buyers care about different features) → **Features-as-benefits.**
-- If both are true → include both, but only when the product genuinely needs it. Default to one.
+## Step 3 — Outline + critique gate
 
-**Conditional additions:**
-| Section | Include only when |
-|---|---|
-| Testimonials block | ≥2 named, specific, outcome-driven quotes available |
-| Pricing snapshot | Self-serve, transparent pricing, B2C or low-touch B2B |
-| FAQ | Real objections exist (security, integration, fit, contract length) |
-| Logo bar | ≥4 recognizable customer logos |
+Build the page **as a structural outline**, not draft copy. Then run the gate. **Failures here mean restructure, not patch.**
 
-**Default = 5 sections.** Adding sections taxes attention. Each addition needs a reason. If unsure, cut.
+Load `references/design-principles.md` at the start of this step. It applies to every project — theme-respectful or from-scratch. The principles shape the page's hierarchy, atmosphere, motion posture, signature element, and custom-vs-stock split. The detected theme (Step 1) decides which tokens and components to use; the principles decide how to compose them into a page that converts.
 
-**Output of this step:** ordered section list with one-line rationale per section. If the page deviates from a standard 5-section flow, surface this list to the user before writing copy.
+### Section selection
 
-## Step 4 — Write copy
+Default to **5 sections**. Each addition taxes attention.
 
-Load `references/copy-rules.md` for full ruleset (banned words, tone-by-audience, length budgets, FAQ patterns).
+**Required:** Hero · Social proof (real or substituted) · One of {How it works, Features-as-benefits} · Final CTA
 
-### Hero pitch — write this first, before anything else
+**Conditional:** Problem snapshot (cold traffic only) · Testimonials block (≥2 named, specific quotes) · Pricing (self-serve, transparent) · FAQ (real objections only)
 
-**Formula:**
-> [Outcome verb] [specific result] for [specific audience], [unique mechanism / without-tradeoff].
+**How-it-works vs. Features:** mechanism non-obvious → How it works; mechanism obvious but value-per-feature varies → Features. If both apply, pick one and default leaner.
 
-**Examples (study these — they are the highest-leverage copy in the page):**
+For full section specs, mobile-first specs, and cut-priority order: `references/conversion-framework.md`.
 
-| ❌ Bad | Why it fails | ✅ Good |
+### Visual-first plan
+
+For every section, decide what the visual carries before writing any copy:
+
+| Section | Visual carries | Copy supports |
 |---|---|---|
-| "Empower your team with AI-driven workflow automation." | Generic, feature-led, no audience, swappable for any tool | "Close support tickets 3× faster — for fintech support teams who can't hire more agents." |
-| "The future of project management." | Empty claim, no outcome, no audience | "Ship product specs in a day, not a week — built for two-pizza engineering teams." |
-| "Transform how your business operates." | Vague, business-generic | "Cut your monthly close from 10 days to 2 — for finance teams at 50–500 person SaaS companies." |
-| "The all-in-one platform for modern marketers." | "All-in-one" is a confession, not a benefit | "Run a full campaign — email, ads, landing pages — without switching tools, for solo founders." |
+| Hero | Product screenshot / video / animated mock | One sentence + CTA |
+| Social proof | Logos, ratings, metrics | Optional one-line context |
+| Problem | Visual contrast (before/after, broken UI mock, illustration) | 2 sentences max |
+| How it works | 3 distinct visuals, one per step | Verb-led title + 1 sentence per step |
+| Features | Icon or micro-screenshot per card | Outcome headline + 1 line |
+| Testimonials | Avatar + logo | Quote with metric |
+| Pricing | Tier hierarchy (recommended elevated) | 3–5 outcome bullets |
+| FAQ | None — accordion behavior + whitespace | Tight Q/A |
+| Final CTA | Subtle background or accent | Restate outcome + button |
 
-**Sub-headline formula:**
-> [What it literally is], [for whom], [the mechanism in one phrase].
+If a section has no visual plan beyond "icon," it's underdeveloped. Add a real visual or cut.
 
-The headline sells the *outcome*. The subhead names the *thing* and the *how*.
+### The gate (one pass, all checks pass/fail)
 
-### CTA copy
+- [ ] **Offer is sharp** — all four elements (what / whom / outcome / exchange) clear in one sentence each.
+- [ ] **Hero is one sentence.** Subhead is opt-in, not a default field.
+- [ ] **Every section has a real visual plan**, not a placeholder icon.
+- [ ] **Show > tell ratio** — at least 4 of the chosen sections lead with a visual, not text.
+- [ ] **Section count justified** — each one earns its slot.
+- [ ] **Theme decision made** — using existing tokens or explicitly generating new.
+- [ ] **Asset reality checked** — every visual is real or marked as a placeholder spec.
+- [ ] **Single CTA throughout** — same label and destination, hero → final.
+- [ ] **Mobile layout specified per section** — not "responsive" as a vague goal. Every grid collapses to single column at <640px.
 
-- Describes the outcome of clicking, never the action.
-- Hero CTA and final CTA say the **same thing**, same color, same destination.
-- Library: "Start free 14-day trial" / "Book a 20-min demo" / "Get early access" / "Get the playbook" / "Talk to sales."
+If any fail, fix the outline. Don't proceed with a broken foundation.
 
-### Body copy — execution rules
+## Step 4 — Write copy (lean pass)
 
-- Second person ("you")
-- Cut every adjective that isn't doing real work
-- Replace generic claims with metrics, names, or concrete examples
-- One idea per sentence, max 3 lines per paragraph
-- Total word count: **300–500 words** for standard SaaS, **80–150** for waitlist, **500–700** for enterprise
+Load `references/copy-rules.md` for banned words, body patterns, length budgets.
 
-### Thin-proof handling
+### Hero — the one sentence
 
-If after intake the proof is thin (no testimonials, no logos, no metrics), still build the best page possible. Substitute social proof in this priority order:
+**Formula:** [Outcome verb] [specific result] for [specific audience], [unique mechanism / without-tradeoff].
 
-1. Founder credentials ("Built by ex-Stripe engineers")
-2. Press / community signals (GitHub stars, Hacker News, Product Hunt)
-3. Beta numbers ("In private beta with 40 teams")
-4. Honest under-promising ("New — be one of the first 100")
+**Tests before keeping a hero:**
+- Swap the company name for a competitor's. Does it still describe theirs? → Too generic, rewrite.
+- Read it out loud. Does it snag? → Rewrite.
+- Two sentences? → Cut one.
 
-**Never fabricate testimonials, customer names, or metrics.**
+**Examples:**
 
-If proof is thin, make a note for Step 8 — the deliverable will end with a recommendation to develop concrete proof.
+| ❌ Bad | ✅ Good |
+|---|---|
+| "Empower your team with AI-driven workflow automation that revolutionizes how modern businesses operate." | "Close support tickets 3× faster." |
+| "The future of project management. Beautifully designed for high-performance teams that want to ship faster." | "Ship product specs in a day, not a week." |
+| "Transform how your business operates with our cutting-edge platform." | "Cut your monthly close from 10 days to 2." |
 
-### FAQ
+### Body, CTA, FAQ
 
-If FAQ section is included, load `references/objection-library.md` and pick 4–6 real objections. Order them: setup/onboarding early (momentum builder), trust mid, **price last** (the final wall).
+Body copy: second person, one idea per sentence, ≤3 lines per paragraph, replace adjectives with specifics. CTA: outcome label, same hero → final. FAQ (if included): load `references/objection-library.md`, pick 4–6, order setup early → trust mid → **price last**.
 
-## Step 5 — Decide design system
+### Thin proof
 
-Load `references/design-systems.md` for theme adoption rules, palette construction, anti-slop list, and tokens output format.
+If proof is thin, never fabricate. Substitute in priority order: founder credentials → press/community signals (GitHub stars, HN, Product Hunt) → beta numbers → honest under-promising. Note it for Step 5 — the deliverable will end with a proof-gap callout.
 
-**Decision:**
-- **Existing theme provided** → adopt exactly. Don't "improve" the brand.
-- **No theme** → generate. Pick one aesthetic direction tied to audience + tone, then derive palette / fonts / radius / shadow / signature element from that direction.
+## Step 5 — Brief, build, deliver
 
-**Variation rule:** do not converge on the same fonts and palette across projects. Each generation should derive its choices from the specific aesthetic direction picked for *this* product. If a previous project used Editorial New + Söhne, a different one should not — pick fonts that fit the new aesthetic, not the comfortable ones.
+Before invoking frontend-design, `view` `/mnt/skills/public/frontend-design/SKILL.md` for environment-specific constraints.
 
-**Output of this step:** a complete design tokens block (CSS variables) ready to hand to frontend-design.
+### Brief content (not template)
 
-## Step 6 — Critique pass (HARD GATE)
+The brief hands frontend-design these fields, in this order. Format flexibly; the *content* is what matters.
 
-Before any code is generated, run this critique pass. **Frame: imagine you are an external conversion consultant reviewing a junior designer's draft. Be merciless.**
+- **Product context** — offer, audience, conversion goal (exact CTA label).
+- **Theme handoff** — name the system in use (shadcn / Tailwind config / Material / custom CSS vars / new). If existing: list the tokens and components to use, forbid hex hardcoding and CSS variable regeneration. If new: the system was designed in Step 3 per the principles file; describe its tokens. Never output framework-specific code blocks here — frontend-design owns the implementation choice.
+- **Design intent** — aesthetic direction, typographic posture, color posture, spatial posture, atmospheric posture, motion posture, signature element, custom-vs-stock split. Per `references/design-principles.md`. **These fields apply equally whether the project has a theme or not** — the theme gives you primitives, the design intent shapes the page.
+- **Sections in order** — for each: visual (real path or specific placeholder spec, not "screenshot"), exact copy, layout posture, per-section animation if any.
+- **Mobile layout** — per `references/conversion-framework.md` mobile specs. Verify each grid collapses to single column at <640px.
+- **Global animation** — page-load orchestration order, scroll-reveal threshold, CTA reward. Respect `prefers-reduced-motion`. No autoplay with sound.
+- **Tech constraints** — stack, component library, performance target (LCP <2.5s on mobile), accessibility (contrast ≥4.5:1 body, focus states, alt text, semantic HTML).
+- **Meta** — page title (≤60 chars), description (≤155 chars), OG image spec or placeholder.
+- **Placeholders to fill** — explicit list.
 
-Run every check below. Each one is pass/fail. **If any fails, fix it before proceeding to Step 7.** Do not negotiate with yourself.
+### Pre-handoff scan
 
-### Copy gates
+One last scan, focused only on what could still slip past:
 
-- [ ] **Hero swap test**: Replace the company name with a generic competitor's. Does the sentence still make sense as theirs? → If yes, FAIL. The hero is too generic.
-- [ ] **Banned-word scan**: Page contains no instance of *empower, unlock, leverage, seamlessly, cutting-edge, state-of-the-art, best-in-class, world-class, revolutionize, transform, all-in-one, one-stop-shop, solutions (alone), powerful, easy, simple* — unless followed by specifics that earn the word.
-- [ ] **Specificity check**: Every claim has a number, a name, or a concrete example. No floating adjectives.
-- [ ] **CTA consistency**: Hero CTA label matches final CTA label exactly.
-- [ ] **Word count**: Count all visible page copy. Within budget for the page type? (300–500 SaaS, 80–150 waitlist, 500–700 enterprise.)
-- [ ] **One conversion goal**: Page has exactly one primary CTA repeated. No competing primary CTAs.
+- **Banned words** — per `copy-rules.md`. No instance unless followed by specifics that earn it.
+- **Word count within budget** for the page type — count, don't estimate.
+- **Anti-slop** — no convergent AI defaults (purple→pink on white, generic system fonts as headline unless the existing theme uses them, six identical gradient-icon feature cards).
 
-### Design gates
+If any fail, fix before invoking frontend-design.
 
-- [ ] **No purple→pink gradient on white background.**
-- [ ] **No indigo-on-slate "default AI tool" palette.**
-- [ ] **Headline font is not** Inter, Roboto, Arial, or system-ui.
-- [ ] **One dominant color**, not 5 colors at equal weight.
-- [ ] **Signature element present** — one specific memorable visual move (texture, accent shape, type treatment, asymmetric layout, micro-interaction, custom cursor, etc.).
-- [ ] **Mobile fold check**: hero, subhead, CTA, and one trust cue all fit a 375×667px viewport.
-- [ ] **Tap targets ≥44×44px**, body text ≥16px.
+### Deliver
 
-### Asset gates
+1. The page code (from frontend-design), using project components and tokens.
+2. Short rationale (≤8 bullets): theme decision, section choices, hero angle, key assumptions.
+3. Placeholders to fill — explicit list.
+4. Proof-gap callout if proof was thin: 1–3 concrete moves to develop proof in the next 7 days.
+5. 2–3 iteration prompts for common next moves.
 
-- [ ] **Every visual is either real or marked as a placeholder** with a clear spec for what should replace it. No phantom screenshots.
-
-### Structural gates
-
-- [ ] **Section count justified**: every section earns its slot per Step 3 rules.
-- [ ] **Cut-priority verified**: if any section is borderline, cut it.
-
-**If all gates pass → proceed to Step 7.**
-**If any gate fails → fix the specific failure, re-run only the affected gates, then proceed.**
-
-This pass is not optional. It is what separates this skill's output from the slop baseline.
-
-## Step 7 — Brief & build
-
-Before invoking frontend-design, `view` `/mnt/skills/public/frontend-design/SKILL.md` to apply environment-specific constraints.
-
-Hand off this exact brief structure (do not paraphrase — the brief *is* the contract):
-
-```markdown
-# Landing page implementation brief
-
-## Product context
-- Offer: [one line]
-- Audience: [one line]
-- Conversion goal: [one CTA — exact label]
-
-## Design direction
-- Aesthetic: [e.g. "editorial-minimal with industrial accents"]
-- Palette: [hex codes with role: dominant / accent / neutrals]
-- Typography: [display font + body font + sizes]
-- Spacing scale: [base unit]
-- Radius / shadow / border style: [tokens]
-- Signature element: [the one memorable thing]
-
-## Sections in order
-1. Hero
-   - Headline: "[exact copy]"
-   - Subhead: "[exact copy]"
-   - CTA: "[label]" → [destination]
-   - Visual: [real screenshot at PATH] OR [placeholder: spec for what it should show]
-2. [next section...]
-
-## Animations
-- Page load: [what animates, when, in what order]
-- Scroll: [reveal pattern, threshold]
-- Hover: [CTA behavior, card behavior]
-- Constraints: respect prefers-reduced-motion, no autoplay sound
-
-## Tech constraints
-- Stack: [React/HTML/Astro/etc.]
-- Component library: [if any — use it, don't recreate]
-- Mobile-first, 375px → scale up
-- Performance: lazy-load below fold, compress images, sub-2.5s LCP target
-- Accessibility: contrast ≥4.5:1 body / ≥3:1 large text, focus states, tap targets ≥44×44px
-
-## Meta
-- Page title: [≤60 chars]
-- Meta description: [≤155 chars, repeats value prop]
-- OG image: [spec or placeholder]
-
-## Placeholders to fill
-- [explicit list of every asset the user must provide]
-```
-
-## Step 8 — Deliver
-
-Final response, in this order:
-
-1. **The page code** (from frontend-design output) — single file when feasible.
-2. **A short rationale** (≤10 bullets) — section choices, copy angle, design direction, key assumptions.
-3. **Placeholders to fill** — list every asset, real testimonial, real metric the user needs to substitute.
-4. **Proof gap callout** (if proof was thin at intake): a short, direct recommendation on what proof to develop next — typically 1–3 concrete moves (e.g., "Get 3 named testimonials from beta users this week," "Add a metric to the hero once you've measured it," "Replace the founder-credential line with a customer logo bar once you have 4 logos").
-5. **Two or three iteration prompts** — common next moves the user might want.
-
-No apologies, no "let me know if you'd like changes." The user knows.
+No apologies, no "let me know if you'd like changes."
 
 ---
 
 ## Adaptation patterns
 
-**Existing site / redesign**: ask for the URL or screenshots; extract their tokens (or have user paste them); respect their identity. If they want a rebrand, they'll say so.
+| Page type | Adjustment |
+|---|---|
+| **Pre-launch / waitlist** | 3 sections only (hero + email capture, problem, social proof). Word budget 60–120. |
+| **Lead magnet** | Hero + what's inside (3 bullets) + author credibility + form. |
+| **Enterprise / high-touch B2B** | Replace pricing with "Talk to sales." Security/compliance line near CTA. Testimonials only if from named decision-makers. |
+| **Consumer** | Visual hero, shorter copy, emotional outcome, prominent pricing, reviews/ratings as proof. |
+| **Developer tool** | Code snippet near hero, GitHub stars as proof, technical specifics in features, docs/install as secondary CTA. Skip problem snapshot if audience is already aware. |
+| **Existing-site redesign** | Run Step 1 harder — `web_fetch` the site, extract tokens, respect identity unless a rebrand was requested. |
 
-**Pre-launch / waitlist**: 3 sections only — hero with email capture, problem snapshot, social proof (or substitute). No pricing, no FAQ, no testimonials block. Word budget 80–150.
-
-**Lead magnet / ebook**: hero + what's inside (3 bullets) + author credibility + form. Skip the rest.
-
-**Enterprise / high-touch B2B**: replace pricing with "Talk to sales." Add security/compliance line near CTA. Testimonials must be from named decision-makers at recognizable companies, or skip the section.
-
-**Consumer product**: visual hero (product shot or video), shorter copy, emotional outcome language, prominent pricing, reviews/ratings as social proof.
-
-**Developer tool**: code snippet in or near hero, GitHub stars as proof, technical specifics in features (not vague benefits), docs/install as a secondary CTA, no problem snapshot if audience is already aware.
-
----
-
-## What this skill explicitly does NOT do
-
-- Multi-page sites (single-page only)
-- Backend / forms wiring (the page captures email or links to checkout — integration is the user's call)
-- A/B test setup or analytics instrumentation
-- Full brand identity from scratch — only what's needed for *this* page
-
----
-
-## Reference files
-
-Load only when the workflow reaches the relevant step. Do not load all upfront.
-
-- `references/conversion-framework.md` — section structure, mobile-first specs, what each section must contain (Step 3)
-- `references/copy-rules.md` — banned words, tone-by-audience, length budgets, body copy patterns (Step 4)
-- `references/design-systems.md` — theme adoption, palette construction, anti-slop, tokens output format (Step 5)
-- `references/objection-library.md` — universal objections by category, how to dismantle each (Step 4 if FAQ included)
+Out of scope: multi-page sites, backend/forms wiring, analytics, full brand identity from scratch.
