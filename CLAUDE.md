@@ -10,6 +10,19 @@ This is a project initialization template. It is NOT a project itself. Its purpo
 
 This repository is in **template mode**. The docs/ folder contains placeholder files that will be filled during the `/setup-1-scope` workflow.
 
+## Skills Attribution
+
+Some skills in this repository are imported from external creators:
+- Matt Pocock: [mattpocock/skills](https://github.com/mattpocock/skills)
+- Julius Brussee (caveman): [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
+
+Imported skills currently present:
+- `caveman` (from `JuliusBrussee/caveman`)
+- `diagnose`
+- `improve-codebase-architecture`
+- `to-prd`
+- `landing-page-generator`
+
 ## Workflow
 
 The user will run these commands in order:

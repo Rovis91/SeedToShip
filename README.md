@@ -2,6 +2,26 @@
 
 This template helps you go from idea to a ready-to-build project, with structured docs and Claude Code setup before writing app code.
 
+## Imported Skills Attribution
+
+This repository includes imported skills from:
+- Matt Pocock: [mattpocock/skills](https://github.com/mattpocock/skills)
+- Julius Brussee (caveman): [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
+
+Imported skills currently present:
+- `caveman` (from `JuliusBrussee/caveman`)
+- `diagnose`
+- `improve-codebase-architecture`
+- `to-prd`
+
+### When to use each skill
+
+- `caveman`: Use when you want ultra-brief, low-token responses while keeping technical accuracy.
+- `diagnose`: Use when a bug or performance issue is hard to understand and needs a structured debugging loop.
+- `improve-codebase-architecture`: Use when you want to find and prioritize deeper refactors that improve maintainability and modular design.
+- `to-prd`: Use when you want to turn the current conversation into a clear PRD that can be tracked and executed ( after the original PRD )
+- `landing-page-generator`: Use when you need to create or iterate a conversion-focused landing page quickly.
+
 ## Install (Git Clone)
 
 1. Clone the repository:
@@ -19,18 +39,23 @@ If you do not use Git, you can still download and extract the repository ZIP.
 - Use `/desktop` for a better UI during setup and review.
 - Use `/clear` between each major step to keep context clean.
 - If you feel like trusting claude use `claude --dangerously-skip-permissions`
-- I recommend to use `/effort` => high for the all setup (don't forget to turn it back to medium after)
-- Run steps in order. Do not skip.
+- I recommend to use `/effort` => max for the all setup (don't forget to turn it back to medium after)
+- Run steps in order.
 
 ## Workflow (Required Order)
+
+### 0) Rename the Project Folder
+Before running setup commands, rename the root folder to your actual project name if it is still a template name (for example `SeedToShip`, `project`, or similar).
 
 ### 1) Scope the Project
 ```
 /setup-1-scope
 ```
-Checks your prerequisites (Git, Node.js, npm), then asks you to explain your project until Claude has a complete understanding of your needs. Generates all docs for your review.
+Asks you to explain your project until Claude has a complete understanding of your needs. Generates all docs for your review.
 
 Review and approve the generated docs before continuing.
+
+**Most part of software programming problems with AI or humans come from misalignement**
 
 ### 1.5) Review (optional but recommended)
 If the generated docs feel too complicated, over-engineered, or unclear, stay in the same session and ask Claude for a focused review.

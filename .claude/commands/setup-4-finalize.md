@@ -33,8 +33,6 @@ Go through each item and report pass/fail:
 
 ### Tooling
 - [ ] MCPs installed and functional (if any were configured)
-- [ ] Hooks in place (if any)
-- [ ] Settings updated
 - [ ] Temporary README protection hook exists before cleanup
 
 Report the full checklist to the user. If anything fails, fix it or ask the user how to proceed.
@@ -45,13 +43,9 @@ Once everything passes, perform all cleanup steps in order.
 
 ### Step 1 — Replace `{{project_name}}` placeholders
 
-Get the project name from the current directory:
+Get the project name from the current directory.
 
-```bash
-basename $(pwd)
-```
-
-Then search all text files for the placeholder and replace with the actual project name. Use the Edit tool for each file containing `{{project_name}}`. Target these extensions: `.md`, `.json`, `.js`, `.mjs`, `.ts`, `.tsx`, `.py`, `.sh`, `.yaml`, `.yml`.
+Then search all text files for the placeholder and replace with the actual project name. Use the Edit tool for each file containing `{{project_name}}`.
 
 If no placeholders are found, skip this step.
 
@@ -79,19 +73,27 @@ This removes all four setup commands, including this one. That is expected — s
 rm -rf .setup-state/
 ```
 
-## Update CLAUDE.md
+## Step 6 — Update CLAUDE.md
 
-Rewrite `CLAUDE.md` to reflect the actual project. It should contain:
+Rewrite `CLAUDE.md` as a **context-injection file** (loaded every session), not documentation. Target **<100 lines**, hard ceiling 200.
 
-- Project name and one-line description
-- Links to all docs in `/docs`
-- Key constraints (from CONSTRAINTS.md — the most critical ones)
-- Available commands: `/phase-start` and `/phase-review`
-- Active hooks: `docs_protection.py` only
-- Current state: "v0 committed — ready for Phase 2 development"
-- Rules: do not modify docs without user confirmation, follow constraints, follow timeline phases
+### Rules
+- **Pointers, not copies** — reference `/docs/*.md`, never duplicate content (drift risk).
+- **Universally applicable only** — task-specific guidance goes in `/docs`. Irrelevant content degrades attention to the rest.
+- **No code style / lint rules** — that's a linter's job; Claude follows existing patterns in-context.
+- **Exact commands with real flags** — prevents hallucination (highest-ROI inclusion).
 
-## Commit v0
+### Required structure
+1. **Identity** — name, one-line description, current phase.
+2. **WHY** — one paragraph (condensed from `docs/PRD.md`).
+3. **WHAT** — codebase map: top-level folders, one line each.
+4. **HOW** — fenced commands: install, build, run, test (full + single), lint/typecheck. State non-default runtimes (`bun`, `uv`, etc.).
+5. **Doc index** — `docs/*.md` files with one-line descriptions for progressive disclosure.
+6. **Workflow** — `/phase-start`, `/phase-review`.
+7. **Operating rules** (≤5): don't edit `/docs` without confirmation; follow `CONSTRAINTS.md` layout; respect `TIMELINE.md` phase boundaries.
+
+
+## Step 7 - Commit v0
 
 If Git is available:
 1. `git add -A`

@@ -1,15 +1,10 @@
 ---
-description: "Start the project scoping conversation. Asks iterative questions to understand the user's idea, then generates all project documentation (PRD, tech stack, constraints, timeline). Use this as the first step when setting up a new project."
+name: setup-1-scope
+description: Scope a new project through iterative questioning, then generate core docs in sequence with mandatory user review gates.
 allowed-tools: Read Write Bash(git *) Bash(node *) Bash(npm *) Bash(which *)
 ---
 
-# Setup Step 1 — Scope the Project
-
-You are helping a user define their project from scratch. They may have a vague idea or a clear vision. Your job is to ask the right questions until you have enough information to generate complete project documentation.
-
-## Prerequisites Check
-
-Before asking anything else, verify the user's environment has the required tools. Run these three checks:
+Start by checking prerequisites silently:
 
 ```bash
 git --version
@@ -17,162 +12,72 @@ node --version
 npm --version
 ```
 
-- If `git` is missing: tell the user to install Git from https://git-scm.com and stop.
-- If `node` is missing or below v18: tell the user to install Node.js 18+ from https://nodejs.org and stop.
-- If `npm` is missing: tell the user to reinstall Node.js (npm is bundled with it) and stop.
+If a check fails:
+- Missing `git`: ask user to install from https://git-scm.com and stop.
+- Missing `node` or version < 18: ask user to install Node.js 18+ from https://nodejs.org and stop.
+- Missing `npm`: ask user to reinstall Node.js and stop.
 
-If all three pass, continue to the scoping conversation below. Do not mention the checks to the user unless something fails.
+If checks pass, interview the user to define an MVP. Ask questions one-by-one (max two at a time).
 
-## How This Works
+Opening questions:
+- What are you building?
+- What problem does it solve?
+- Who is it for?
+- Local-only or deployed for others?
+- What is your level with this stack (beginner/intermediate/advanced)?
 
-1. Start a conversation to understand the user's project idea
-2. Ask iterative questions until all key areas are covered
-3. Generate all documentation in the correct order
-4. Request human review of every document
+Adapt question depth to user level:
+- Beginner: simple language, concrete options.
+- Intermediate: balanced detail and trade-offs.
+- Advanced: concise, architecture-level decisions.
 
-## Conversation Flow
+Cover these areas before drafting docs:
+- Problem, goals, and success criteria
+- Users and key user flows
+- MVP features (3-5), out-of-scope items, v2 deferrals
+- Data model needs, integrations, auth
+- Constraints: platform, budget, timeline, deployment target
+- Monetization (only if relevant)
 
-### Opening
-Greet the user and ask them to describe their project idea in their own words. Keep it casual — they might not know technical terms. Ask something like:
-- "What are you trying to build?"
-- "What problem does this solve?"
-- "Who would use this?"
-- "Is this project for local use only, or do you plan to deploy it for other users?"
-- "What is your technical level with this stack (beginner, intermediate, advanced)?"
+Stop questioning when:
+- User says to move on, or
+- You can clearly write a complete MVP PRD.
 
-Use the technical level answer to adapt all follow-up questions:
-- Beginner: simpler wording, fewer options, more concrete examples
-- Intermediate: balanced depth and trade-offs
-- Advanced: concise questions, deeper architectural trade-offs
+Then say: "I have enough to generate your docs. I'll draft them for your review."
 
-### Iterative Questioning
-Ask questions one or two at a time. Do NOT dump a list of 10 questions. Cover these areas naturally through conversation:
+Generate docs in this exact order, and require explicit approval after each:
 
-**Problem & Vision**
-- What problem does this solve?
-- Why does this need to exist? What's the alternative today?
-- What does success look like?
+1) `docs/PRD.md`
+- Problem statement, users, MVP features, user stories, success criteria, out-of-scope, monetization (if any), open questions.
 
-**Users**
-- Who is the primary user?
-- What's their technical level?
-- How will they discover and access this?
+2) `docs/TECH_STACK.md`
+- Recommend a minimal stack based on PRD and user level.
+- Prefer stable, well-documented tools and minimal dependencies.
+- Ask user to confirm/adjust before continuing.
 
-**Core Features**
-- What are the 3-5 must-have features for a first version?
-- What's explicitly NOT in v1?
-- What's the simplest version that would be useful?
-- What can be postponed to v2+ to avoid over-engineering?
+3) `docs/CONSTRAINTS.md`
+- Conventions for structure, naming, architecture, testing, style, security, git workflow.
 
-**User Flows**
-- Walk me through the main thing a user does
-- Are there different user roles?
-- What happens on first use vs. returning use?
+4) `docs/TIMELINE.md`
+- Phase 0 docs/planning, Phase 1 setup, Phase 2+ feature phases.
+- Each phase: scope, milestones, dependencies, acceptance criteria.
 
-**Data & Integrations**
-- What data does this need to store?
-- Does it integrate with any external services?
-- Are there auth requirements?
+5) `docs/README.md`
+- Table of contents with one-line summaries for all docs.
 
-**Monetization** (if relevant)
-- Is this a paid product? How?
-- Are there free/paid tiers?
+6) `CLAUDE.md`
+- Update project description, doc links, key constraints, and state (`/setup-2-tooling` ready).
 
-**Constraints**
-- Any hard requirements? (platform, language, hosting)
-- Any budget constraints?
-- Timeline expectations?
-- Local-only or deployment target (Vercel, Docker, on-prem, etc.)?
+Optional docs only with explicit approval and clear need:
+- `docs/API.md`, `docs/DEPLOYMENT.md`, `docs/SECURITY.md`, `docs/DATA_MODEL.md`, `docs/JOBS.md`.
 
-### When to Stop Asking
-Stop when:
-- The user says "that's enough" or "let's move on"
-- All key areas above are covered
-- You have enough to write a complete PRD
-- You can clearly define an MVP without speculative systems
-
-Tell the user: "I think I have enough to generate your project docs. Let me write them up for your review."
-
-## Document Generation Order
-
-Generate documents in this exact order. Each document builds on the previous one.
-
-### 1. docs/PRD.md
-Write the full Product Requirements Document based on the conversation. Include:
-- Problem statement
-- Target users
-- Core features (MVP)
-- User stories
-- Success criteria
-- Out of scope
-- Monetization (if applicable)
-- Open questions
-
-### 2. docs/TECH_STACK.md
-Based on the PRD requirements, **propose** a tech stack. Explain your reasoning. Consider:
-- User's technical level and preferences (if mentioned)
-- Project requirements (real-time? heavy data? mobile?)
-- Simplicity — prefer established, well-documented tools
-- Deployment simplicity
-- **Minimum viable dependencies** — every library added is a liability; choose the option that achieves the goal with the fewest moving parts
-- **Only propose technologies you are confident working with** — do not suggest tools you cannot fully implement and debug; if multiple options are equal, pick the one you know best
-
-Present your recommendation and **ask the user to confirm or adjust** before proceeding.
-
-### 3. docs/CONSTRAINTS.md
-Based on the confirmed tech stack, generate specific coding constraints:
-- File structure conventions for the chosen framework
-- Naming conventions
-- Architecture patterns
-- Testing requirements
-- Code style rules
-- Security guidelines
-- Git conventions
-
-### 4. docs/TIMELINE.md
-Based on the PRD and tech stack, create a phased timeline:
-- Phase 0: Documentation & planning (already done)
-- Phase 1: Project setup & dependency installation
-- Phase 2+: Feature development (one phase per logical feature group)
-
-Each phase should include: scope, milestones, dependencies, acceptance criteria.
-Phases should be ordered by dependency and sized for one work session.
-
-### 5. docs/README.md
-Generate a table of contents linking all docs with one-line summaries.
-
-### 6. CLAUDE.md
-Update CLAUDE.md to reflect the actual project:
-- Project name and description
-- Links to all docs
-- Key constraints and rules
-- Current state (ready for `/setup-2-tooling`)
-
-### 7. Optional Additional Docs (only if clearly needed)
-Claude can generate extra, project-specific docs when they provide clear value. Examples:
-- `docs/API.md` for API-heavy backends
-- `docs/DEPLOYMENT.md` for deployment/infrastructure-specific projects
-- `docs/SECURITY.md` for auth/compliance-heavy apps
-- `docs/DATA_MODEL.md` for data-intensive products
-- `docs/JOBS.md` for queue/worker/job-based systems
-
-Rules for optional docs:
-- Do NOT create them by default.
-- Propose them briefly with a clear reason tied to project needs.
-- Ask for explicit user approval before generating each extra doc.
-
-## Doc Length Rules
-
-All generated docs must stay **under 250 lines**. If a doc is inherently long (e.g., a detailed user guide, a job-specific reference file), add a table of contents at the top before writing the body. Never let a doc exceed 250 lines without one.
-
-## Critical Rules
-
-- **Ask questions iteratively**, not all at once
-- **Never assume a tech stack** — derive it from requirements
-- **Start by scoping user technical level and local vs deploy intent**
-- **Prioritize MVP clarity** — avoid speculative architecture
-- **Show each document to the user** and ask for confirmation before moving to the next
-- **Do not skip review** — every document requires explicit user approval
-- **Do not generate application code** — this is documentation only
-- **Do not install anything** — that happens in later steps
-- After all docs are approved, tell the user to run `/setup-2-tooling` next
+Rules:
+- Ask iteratively; do not dump long questionnaires.
+- Never assume stack before requirements.
+- Prioritize MVP clarity and avoid speculative architecture.
+- Prioritize Test-Driven Development (TDD): write or update tests first, then implement the smallest code change to pass.
+- Favor deep modules over shallow modules: encapsulate meaningful behavior behind small, clear interfaces with high cohesion and low coupling.
+- Do not generate app code.
+- Do not install dependencies.
+- Keep each doc under 250 lines; add a TOC if long.
+- After all docs are approved, direct user to run `/setup-2-tooling`.

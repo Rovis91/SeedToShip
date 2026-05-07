@@ -25,8 +25,8 @@ Read `docs/TIMELINE.md` Phase 1 tasks and `docs/TECH_STACK.md` for the full stac
 ### 2. Create Project Structure
 Based on `docs/TECH_STACK.md` and `docs/CONSTRAINTS.md`:
 - Create the folder structure defined in constraints
-- Add config files (tsconfig, eslint, prettier, .env.example, etc.)
-- Set up the entry point(s)
+- Add config files defined by the offical docs of this tech stack
+- Ask the user for missing elements ( clarifications, environnement variables, external accounts ...)
 
 If the stack has a CLI initializer (e.g., `create-next-app`, `cargo init`, `django-admin startproject`), use it. Then adjust the output to match the constraints.
 
